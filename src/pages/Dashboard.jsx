@@ -35,8 +35,20 @@ export default function Dashboard() {
         fetchMovies(searchTerm);
     };
 
-    useEffect(() => { 
-        fetchMovies("marvel");
+    useEffect(() => {
+        const loadInitial = async () => {
+            try {
+                setLoading(true);
+                setError("");
+                const data = await searchShows("marvel");
+                setMovies(data);
+            } catch {
+                setError("Failed to load data.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadInitial();
     }, []);
 
     return (
